@@ -64,6 +64,9 @@ static const char *volmute[] = { "amixer", "-q", "set", "Master", "toggle", NULL
 static const char *volup[] = { "amixer", "-q", "set", "Master", "5%+", "unmute", NULL};
 static const char *voldown[] = { "amixer", "-q", "set", "Master", "5%-", "unmute", NULL };
 
+static const char *brupcmd[] = { "brightness.sh", "-pinc", "5", NULL };
+static const char *brdowncmd[] = { "brightness.sh", "-pdec", "5", NULL };
+
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_u,      spawn,          {.v = dmenucmd } },
@@ -101,6 +104,9 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 	{ 0,                            XF86XK_AudioRaiseVolume,      spawn,           {.v = volup} },
 	{ 0,                            XF86XK_AudioLowerVolume,      spawn,           {.v = voldown} },
+	{ 0,                            XF86XK_AudioMute,      spawn,           {.v = volmute} },
+	{ 0,                            XF86XK_MonBrightnessUp,      spawn,           {.v = brupcmd} },
+	{ 0,                            XF86XK_MonBrightnessDown,      spawn,           {.v = brdowncmd} },
 };
 
 /* button definitions */
