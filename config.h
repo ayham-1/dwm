@@ -6,20 +6,24 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { 
-    "monospace:size=10",
-    "NotoColorEmoji:size=10"
-};
+static const char *fonts[]          = { "monospace:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
+static const unsigned int baralpha = 0xd0;
+static const unsigned int borderalpha = OPAQUE;
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+};
+static const unsigned int alphas[][3]      = {
+	/*               fg      bg        border     */
+	[SchemeNorm] = { OPAQUE, baralpha, borderalpha },
+	[SchemeSel]  = { OPAQUE, baralpha, borderalpha },
 };
 
 /* tagging */
@@ -70,6 +74,10 @@ static const char *voldown[] = { "amixer", "-q", "set", "Master", "5%-", "unmute
 static const char *brupcmd[] = { "brightness.sh", "-pinc", "5", NULL };
 static const char *brdowncmd[] = { "brightness.sh", "-pdec", "5", NULL };
 
+static const char *playplaypause[] = { "playerctl", "play-pause" };
+static const char *playnext[] = { "playerctl", "next" };
+static const char *playprev[] = { "playerctl", "previous" };
+
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_u,      spawn,          {.v = dmenucmd } },
@@ -107,9 +115,12 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 	{ 0,                            XF86XK_AudioRaiseVolume,      spawn,           {.v = volup} },
 	{ 0,                            XF86XK_AudioLowerVolume,      spawn,           {.v = voldown} },
-	{ 0,                            XF86XK_AudioMute,      spawn,           {.v = volmute} },
-	{ 0,                            XF86XK_MonBrightnessUp,      spawn,           {.v = brupcmd} },
-	{ 0,                            XF86XK_MonBrightnessDown,      spawn,           {.v = brdowncmd} },
+	{ 0,                            XF86XK_AudioMute,             spawn,           {.v = volmute} },
+	{ 0,                            XF86XK_MonBrightnessUp,       spawn,           {.v = brupcmd} },
+	{ 0,                            XF86XK_MonBrightnessDown,     spawn,           {.v = brdowncmd} },
+	{ 0,                            XF86XK_AudioPlay,             spawn,           {.v = playplaypause} },
+	{ 0,                            XF86XK_AudioNext,             spawn,           {.v = playnext} },
+	{ 0,                            XF86XK_AudioPrev,             spawn,           {.v = playprev} },
 };
 
 /* button definitions */
