@@ -67,6 +67,10 @@ static const char *voldown[] = { "amixer", "-q", "set", "Master", "5%-", "unmute
 static const char *brupcmd[] = { "brightness.sh", "-pinc", "5", NULL };
 static const char *brdowncmd[] = { "brightness.sh", "-pdec", "5", NULL };
 
+static const char *playplaypause[] = { "playerctl", "play-pause" };
+static const char *playnext[] = { "playerctl", "next" };
+static const char *playprev[] = { "playerctl", "previous" };
+
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_u,      spawn,          {.v = dmenucmd } },
@@ -104,9 +108,12 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 	{ 0,                            XF86XK_AudioRaiseVolume,      spawn,           {.v = volup} },
 	{ 0,                            XF86XK_AudioLowerVolume,      spawn,           {.v = voldown} },
-	{ 0,                            XF86XK_AudioMute,      spawn,           {.v = volmute} },
-	{ 0,                            XF86XK_MonBrightnessUp,      spawn,           {.v = brupcmd} },
-	{ 0,                            XF86XK_MonBrightnessDown,      spawn,           {.v = brdowncmd} },
+	{ 0,                            XF86XK_AudioMute,             spawn,           {.v = volmute} },
+	{ 0,                            XF86XK_MonBrightnessUp,       spawn,           {.v = brupcmd} },
+	{ 0,                            XF86XK_MonBrightnessDown,     spawn,           {.v = brdowncmd} },
+	{ 0,                            XF86XK_AudioPlay,             spawn,           {.v = playplaypause} },
+	{ 0,                            XF86XK_AudioNext,             spawn,           {.v = playnext} },
+	{ 0,                            XF86XK_AudioPrev,             spawn,           {.v = playprev} },
 };
 
 /* button definitions */
