@@ -1448,13 +1448,6 @@ run(void)
 
 void
 runAutostart(void) {
-	if (system("cd ~/.config/dwm; ./autostart_blocking.sh") ||
-			system("cd ~/.config/dwm; ./autostart.sh &"))
-				fputs("Could not run start scripts", stdout);
-}
-
-void
-runAutostart(void) {
 	if (!system("cd ~/.config/dwm; ./autostart_blocking.sh") ||
 			!system("cd ~/.config/dwm; ./autostart.sh &"))
 				fputs("Could not run start scripts", stdout);
