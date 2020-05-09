@@ -67,8 +67,8 @@ static const char *volmute[] = { "amixer", "-q", "set", "Master", "toggle", NULL
 static const char *volup[] = { "amixer", "-q", "set", "Master", "5%+", "unmute", NULL};
 static const char *voldown[] = { "amixer", "-q", "set", "Master", "5%-", "unmute", NULL };
 
-static const char *brupcmd[] = { "brightness.sh", "-pinc", "5", NULL };
-static const char *brdowncmd[] = { "brightness.sh", "-pdec", "5", NULL };
+static const char *brupcmd[] = { "xbacklight", "-inc", "5%", NULL };
+static const char *brdowncmd[] = { "xbacklight", "-dec", "5%", NULL };
 
 static const char *playplaypause[] = { "playerctl", "play-pause" };
 static const char *playnext[] = { "playerctl", "next" };
