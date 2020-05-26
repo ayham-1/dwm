@@ -78,6 +78,8 @@ static const char *playplaypause[] = { "playerctl", "play-pause" };
 static const char *playnext[] = { "playerctl", "next" };
 static const char *playprev[] = { "playerctl", "previous" };
 
+static const char *browser[] = { "brave", NULL };
+
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_u,      spawn,          {.v = dmenucmd } },
@@ -89,7 +91,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_less,   incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_Return, zoom,           {0} },
+	{ MODKEY,                       XK_z, 	   zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
@@ -110,6 +112,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
 	{ MODKEY,                       XK_equal,  setgaps,        {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
+	{ MODKEY,                       XK_w,  	   spawn,          {.v = browser } },
+	{ MODKEY|ControlMask,				XK_j,	   pushdown,	   {0} },
+	{ MODKEY|ControlMask,			XK_k,	   pushup,	   	   {0} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
