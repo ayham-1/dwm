@@ -4,28 +4,30 @@
 /* appearance */
 static unsigned int borderpx  = 1;				/* border pixel of windows */
 static unsigned int snap      = 32;       		/* snap pixel */
-static int showbar            = 1;        		/* 0 means no bar */
+static int showbar            = 0;        		/* 0 means no bar */
 static int topbar             = 1;        		/* 0 means bottom bar */
 static const unsigned int gappih    = 20;       /* horiz inner gap between windows */
 static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
 static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
 static const unsigned int gappov    = 30;       /* vert outer gap between windows and screen edge */
-static       int smartgaps          = 1;        /* 1 means no outer gap when there is only one window */
-static const char *fonts[]          = { "terminus:size=10" };
-static const char dmenufont[]       = "terminus:size=10";
-static char normbgcolor[]           = "#222222";
-static char normbordercolor[]       = "#444444";
-static char normfgcolor[]           = "#bbbbbb";
-static char selfgcolor[]            = "#eeeeee";
-static char selbordercolor[]        = "#005577";
-static char selbgcolor[]            = "#005577";
-static char col_urgborder[]			= "#ff0000";
-static char *colors[][3]      = {
-	/*               fg				bg				border   */
-	[SchemeNorm] = { normfgcolor,	normbgcolor,	normbordercolor },
-	[SchemeSel]  = { selfgcolor,	selbgcolor,		selbordercolor  },
-	[SchemeUrg]  = { selfgcolor,	selbgcolor,		col_urgborder  },
-};
+static       int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
+static const char *fonts[]          = { "terminus:size=8" };
+static const char dmenufont[]       = "terminus:size=8";
+
+#include "/home/dizzy/.cache/wal/colors-wal-dwm.h"
+//static char normbgcolor[]           = "#222222";
+//static char normbordercolor[]       = "#444444";
+//static char normfgcolor[]           = "#bbbbbb";
+//static char selfgcolor[]            = "#eeeeee";
+//static char selbordercolor[]        = "#005577";
+//static char selbgcolor[]            = "#005577";
+//static char col_urgborder[]			= "#ff0000";
+//static char *colors[][3]      = {
+//	/*               fg				bg				border   */
+//	[SchemeNorm] = { normfgcolor,	normbgcolor,	normbordercolor },
+//	[SchemeSel]  = { selfgcolor,	selbgcolor,		selbordercolor  },
+//	[SchemeUrg]  = { selfgcolor,	selbgcolor,		col_urgborder  },
+//};
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -37,7 +39,7 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor    scratch keys	float x,y,w,h         floatborderpx*/
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1,        0,				50,50,500,500,			5 },
-	{ "firefox",  NULL,       NULL,       1 << 8,       0,           -1,        0,				50,50,500,500,			5 },
+	{ "firefox",  NULL,       NULL,       0,	        0,           -1,        0,				50,50,500,500,			5 },
 	{ NULL,       NULL,   "scratchpad",   0,            1,           -1,       's',				50,50,500,500,			5 },
 };
 
@@ -69,39 +71,40 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
-#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
-#define HOLDKEY 0 // replace 0 with the keysym to activate holdbar
+#define HOLDKEY XK_Super_L // replace 0 with the keysym to activate holdbar
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
+//static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
 
 /*
  * Xresources preferences to load at startup
  */
 ResourcePref resources[] = {
-		{ "normbgcolor",        STRING,  &normbgcolor },
-		{ "normbordercolor",    STRING,  &normbordercolor },
-		{ "normfgcolor",        STRING,  &normfgcolor },
-		{ "selbgcolor",         STRING,  &selbgcolor },
-		{ "selbordercolor",     STRING,  &selbordercolor },
-		{ "selfgcolor",         STRING,  &selfgcolor },
+		//{ "normbgcolor",        STRING,  &normbgcolor },
+		//{ "normbordercolor",    STRING,  &normbordercolor },
+		//{ "normfgcolor",        STRING,  &normfgcolor },
+		//{ "selbgcolor",         STRING,  &selbgcolor },
+		//{ "selbordercolor",     STRING,  &selbordercolor },
+		//{ "selfgcolor",         STRING,  &selfgcolor },
 		{ "borderpx",          	INTEGER, &borderpx },
-		{ "snap",          		INTEGER, &snap },
-		{ "showbar",          	INTEGER, &showbar },
-		{ "topbar",          	INTEGER, &topbar },
-		{ "nmaster",          	INTEGER, &nmaster },
-		{ "resizehints",       	INTEGER, &resizehints },
-		{ "mfact",      	 	FLOAT,   &mfact },
+		//{ "snap",          		INTEGER, &snap },
+		//{ "showbar",          	INTEGER, &showbar },
+		//{ "topbar",          	INTEGER, &topbar },
+		//{ "nmaster",          	INTEGER, &nmaster },
+		//{ "resizehints",       	INTEGER, &resizehints },
+		//{ "mfact",      	 	FLOAT,   &mfact },
 };
 
 static const char *upvol[]   = { "/usr/bin/pactl", "set-sink-volume", "0", "+5%",     NULL };
@@ -116,7 +119,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_u,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_p,      spawn,          SHCMD("passmenu") },
 	{ MODKEY|ShiftMask,             XK_d,      spawn,          SHCMD("flameshot gui") },
-	{ MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("slock") },
+	{ MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("slock -m \"$(cowsay \"$(fortune)\")\"") },
+	{ MODKEY,						XK_w,      spawn,          SHCMD("firefox") },
 	{ MODKEY,						XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
@@ -147,9 +151,9 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[13]} },
 	{ MODKEY,                       XK_n,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY,                       XK_x,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY,                       XK_x,      setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
