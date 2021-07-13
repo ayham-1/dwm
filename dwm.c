@@ -981,6 +981,7 @@ focusmon(const Arg *arg)
 		return;
 	if ((m = dirtomon(arg->i)) == selmon)
 		return;
+
 	unfocus(selmon->sel, 0);
 	selmon = m;
 	focus(NULL);

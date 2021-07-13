@@ -5,7 +5,7 @@
 static unsigned int borderpx  = 1;				/* border pixel of windows */
 static unsigned int snap      = 32;       		/* snap pixel */
 static int showbar            = 1;        		/* 0 means no bar */
-static int topbar             = 1;        		/* 0 means bottom bar */
+static int topbar             = 0;        		/* 0 means bottom bar */
 static const unsigned int gappih    = 10;       /* horiz inner gap between windows */
 static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
 static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */ 
@@ -13,17 +13,19 @@ static const unsigned int gappov    = 10;       /* vert outer gap between window
 static       int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 //static const char *fonts[]          = { "iosevka:size=9" };
 //static const char dmenufont[]       = "iosevka:size=9";
-static const char *fonts[]          = { "ProFontIIx Nerd Font:size=9" };
-static const char dmenufont[]       = "ProFontIIx Nerd Font:size=9";
+//static const char *fonts[]          = { "Liberation Mono:size=9:antialias=true:autohint=true" };
+//static const char dmenufont[]       = "Liberation Mono:size=9:antialias=true:autohint=true";
+static const char *fonts[]          = { "monospace:size=9:antialias=true:autohint=true" };
+static const char dmenufont[]       = "monospace:size=9:antialias=true:autohint=true";
 
 //#include "/home/dizzy/.cache/wal/colors-wal-dwm.h"
-static char normbgcolor[]           = "#000000";
-static char normbordercolor[]       = "#505050";
-static char normfgcolor[]           = "#FFFFFF";
+static char normbgcolor[]           = "#222222";
+static char normbordercolor[]       = "#444444";
+static char normfgcolor[]           = "#bbbbbb";
 
-static char selfgcolor[]            = "#FFFFFF";
-static char selbordercolor[]        = "#FFFFFF";
-static char selbgcolor[]            = "#505050";
+static char selfgcolor[]            = "#eeeeee";
+static char selbordercolor[]        = "#770000";
+static char selbgcolor[]            = "#005577";
 
 static char col_urgborder[]	    = "#ff0000";
 static char col_urgfg[]	    	    = "#ff0000";
@@ -48,8 +50,23 @@ static const Rule rules[] = {
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1,        0,				50,50,500,500,			5 },
 	{ "feh",      NULL,       NULL,       0,            1,           -1,        0,				50,50,500,500,			5 },
 	{ "mpv",      NULL,       NULL,       0,            1,           -1,        0,				50,50,500,500,			5 },
-	{ "firefox",  NULL,       NULL,       0,	    0,           -1,        0,				50,50,500,500,			5 },
-	{ NULL,       NULL,   "scratchpad",   0,            1,           -1,       's',				50,50,700,500,		4 },
+	{ NULL,       NULL,   "scratchpad",   0,            1,           -1,       's',				50,50,700,500,			4 },
+
+	/* Normal Apps */
+	{ NULL,       NULL,   "sys_monitor",  1 << 8,       0,            1,       0,				50,50,700,500,			1 },
+	{ NULL,       NULL,   "newsboat",     1 << 7,       0,            0,       0,				50,50,700,500,			1 },
+	{ "firefox",  NULL,   NULL,           1 << 1,	    0,            0,       0,				50,50,500,500,			5 },
+	{ NULL,       NULL,   "music",        1 << 8,       0,            0,       0,				50,50,700,500,			1 },
+	{ NULL,       NULL,   "mixer",        1 << 7,       0,            1,       0,				50,50,700,500,			1 },
+
+	/* Development Apps */
+	{ NULL,       NULL,   "code0",        1 << 0,       0,            0,       0,				50,50,700,500,			1 },
+	{ NULL,       NULL,   "code1",        1 << 0,       0,            0,       0,				50,50,700,500,			1 },
+	{ NULL,       NULL,   "code2",        1 << 2,       0,            0,       0,				50,50,700,500,			1 },
+	{ NULL,       NULL,   "code3",        1 << 0,       0,            1,       0,				50,50,700,500,			1 },
+	{ NULL,       NULL,   "code4",        1 << 1,       0,            1,       0,				50,50,700,500,			1 },
+	{ NULL,       NULL,   "code5",        1 << 2,       0,            1,       0,				50,50,700,500,			1 },
+	{ NULL,       NULL,   "code6",        1 << 3,       0,            1,       0,				50,50,700,500,			1 },
 };
 
 /* layout(s) */
@@ -86,6 +103,7 @@ static const Layout layouts[] = {
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
+#define TAGMASK ((int)((1LL << LENGTH(tags)) - 1))
 #define HOLDKEY XK_Super_L // replace 0 with the keysym to activate holdbar
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
@@ -93,9 +111,11 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-//static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
+//static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
+/*First arg only serves to match against key in rules*/
+static const char *scratchpadcmd[] = {"s", "alacritty", "-t", "scratchpad", NULL}; 
 
 /*
  * Xresources preferences to load at startup
@@ -123,26 +143,18 @@ static const char *upvol[]   = { "/usr/bin/pactl", "set-sink-volume", "0", "+5%"
 static const char *downvol[] = { "/usr/bin/pactl", "set-sink-volume", "0", "-5%",     NULL };
 static const char *mutevol[] = { "/usr/bin/pactl", "set-sink-mute",   "0", "toggle",  NULL };
 
-/*First arg only serves to match against key in rules*/
-static const char *scratchpadcmd[] = {"s", "alacritty", "-t", "scratchpad", NULL}; 
-
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_u,      spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_p,      spawn,          SHCMD("dpass") },
 	{ MODKEY|ShiftMask,             XK_d,      spawn,          SHCMD("flameshot gui") },
-	{ MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("xscreensaver-command -lock") },
-	{ MODKEY,             		XK_y,      spawn,          SHCMD("yt -r") },
-	{ MODKEY,             		XK_n,      spawn,          SHCMD("dmenufm") },
-	{ MODKEY,             		XK_e,      spawn,          SHCMD("emojenu") },
-	{ MODKEY,			XK_w,      spawn,          SHCMD("librewolf") },
-	{ MODKEY,			XK_s,      spawn,          SHCMD("dmenu_tsearch") },
-	{ MODKEY,			XK_q,      spawn,          SHCMD("dpower") },
-	{ MODKEY,			XK_g,      spawn,          SHCMD("dman") },
-	{ MODKEY,			XK_b,      spawn,          SHCMD("dbuku") },
-	{ MODKEY|ShiftMask,		XK_u,      spawn,          SHCMD("upload_file") },
+	{ MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("slock") },
+	{ MODKEY,			XK_w,      spawn,          SHCMD("dweb") },
 	{ MODKEY|ControlMask,		XK_w,      spawn,          SHCMD("change_wallpaper") },
 	{ MODKEY|ControlMask,		XK_a,      spawn,          SHCMD("add_wallpaper") },
+	{ MODKEY,			XK_y,      spawn,          SHCMD("pomodoro") },
+	{ MODKEY,			XK_e,      spawn,          SHCMD("demoji") },
+	{ MODKEY,			XK_o,      spawn,          SHCMD("dmpv_open") },
+	{ MODKEY,			XK_p,      spawn,          SHCMD("bitwarden-dmenu --dmenu-args='-i' --dmenu-pswd-args='-nf white -P' --clear-clipboard 30 --session-timeout 100 --sync-vault-after 3600 --on-error 'xargs notify-send --urgency=low'") },
 	{ MODKEY,			XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
 	//{ MODKEY,                       XK_b,      togglebar,      {0} },
@@ -171,7 +183,7 @@ static Key keys[] = {
 	{ MODKEY|Mod1Mask|ShiftMask,    XK_0,      defaultgaps,    {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[13]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[3]} },
