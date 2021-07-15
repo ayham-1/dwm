@@ -15,8 +15,8 @@ static       int smartgaps          = 0;        /* 1 means no outer gap when the
 //static const char dmenufont[]       = "iosevka:size=9";
 //static const char *fonts[]          = { "Liberation Mono:size=9:antialias=true:autohint=true" };
 //static const char dmenufont[]       = "Liberation Mono:size=9:antialias=true:autohint=true";
-static const char *fonts[]          = { "monospace:size=9:antialias=true:autohint=true" };
-static const char dmenufont[]       = "monospace:size=9:antialias=true:autohint=true";
+static const char *fonts[]          = { "monospace:size=11:antialias=true:autohint=true" };
+static const char dmenufont[]       = "monospace:size=11:antialias=true:autohint=true";
 
 //#include "/home/dizzy/.cache/wal/colors-wal-dwm.h"
 static char normbgcolor[]           = "#222222";
@@ -111,8 +111,8 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
-//static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, NULL };
+//static const char *dmenucmd[] = { "dmenu_run", "-b", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-b",  "-l", "5", "-m", dmenumon, NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
 /*First arg only serves to match against key in rules*/
 static const char *scratchpadcmd[] = {"s", "alacritty", "-t", "scratchpad", NULL}; 
