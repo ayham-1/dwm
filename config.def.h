@@ -2,7 +2,7 @@
 #include <X11/XF86keysym.h>
 
 /* appearance */
-static unsigned int borderpx  = 2;				/* border pixel of windows */
+static unsigned int borderpx  = 1;				/* border pixel of windows */
 static unsigned int snap      = 0;       		/* snap pixel */
 static int showbar            = 1;        		/* 0 means no bar */
 static int topbar             = 1;        		/* 0 means bottom bar */
@@ -10,7 +10,7 @@ static const unsigned int gappih    = 5;       /* horiz inner gap between window
 static const unsigned int gappiv    = 5;       /* vert inner gap between windows */
 static const unsigned int gappoh    = 5;       /* horiz outer gap between windows and screen edge */ 
 static const unsigned int gappov    = 5;       /* vert outer gap between windows and screen edge */
-static       int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
+static       int smartgaps          = 1;        /* 1 means no outer gap when there is only one window */
 //static const char *fonts[]          = { "iosevka:size=9" };
 //static const char dmenufont[]       = "iosevka:size=9";
 //static const char *fonts[]          = { "Liberation Mono:size=9:antialias=true:autohint=true" };
@@ -98,7 +98,7 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
-#define MODKEY Mod4Mask
+#define MODKEY Mod1Mask
 #define TAGKEYS(KEY,TAG)												\
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -187,22 +187,22 @@ static Key keys[] = {
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_z,	   zoom,           {0} },
-	{ MODKEY|Mod1Mask,              XK_u,      incrgaps,       {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_u,      incrgaps,       {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_i,      incrigaps,      {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_i,      incrigaps,      {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_o,      incrogaps,      {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_o,      incrogaps,      {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_6,      incrihgaps,     {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_6,      incrihgaps,     {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_7,      incrivgaps,     {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_7,      incrivgaps,     {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_8,      incrohgaps,     {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_8,      incrohgaps,     {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_9,      incrovgaps,     {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_9,      incrovgaps,     {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_0,      togglegaps,     {0} },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_0,      defaultgaps,    {0} },
+	//{ MODKEY|Mod1Mask,              XK_u,      incrgaps,       {.i = +1 } },
+	//{ MODKEY|Mod1Mask|ShiftMask,    XK_u,      incrgaps,       {.i = -1 } },
+	//{ MODKEY|Mod1Mask,              XK_i,      incrigaps,      {.i = +1 } },
+	//{ MODKEY|Mod1Mask|ShiftMask,    XK_i,      incrigaps,      {.i = -1 } },
+	//{ MODKEY|Mod1Mask,              XK_o,      incrogaps,      {.i = +1 } },
+	//{ MODKEY|Mod1Mask|ShiftMask,    XK_o,      incrogaps,      {.i = -1 } },
+	//{ MODKEY|Mod1Mask,              XK_6,      incrihgaps,     {.i = +1 } },
+	//{ MODKEY|Mod1Mask|ShiftMask,    XK_6,      incrihgaps,     {.i = -1 } },
+	//{ MODKEY|Mod1Mask,              XK_7,      incrivgaps,     {.i = +1 } },
+	//{ MODKEY|Mod1Mask|ShiftMask,    XK_7,      incrivgaps,     {.i = -1 } },
+	//{ MODKEY|Mod1Mask,              XK_8,      incrohgaps,     {.i = +1 } },
+	//{ MODKEY|Mod1Mask|ShiftMask,    XK_8,      incrohgaps,     {.i = -1 } },
+	//{ MODKEY|Mod1Mask,              XK_9,      incrovgaps,     {.i = +1 } },
+	//{ MODKEY|Mod1Mask|ShiftMask,    XK_9,      incrovgaps,     {.i = -1 } },
+	//{ MODKEY|Mod1Mask,              XK_0,      togglegaps,     {0} },
+	//{ MODKEY|Mod1Mask|ShiftMask,    XK_0,      defaultgaps,    {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
@@ -221,7 +221,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_F1,     spawn,          { .v = (const char*[]){ "remap_caps_esc", NULL } } },
 	{ MODKEY,                       XK_F2,     spawn,          { .v = (const char*[]){ "remap_caps_ctrl", NULL } } },
 	{ MODKEY,                       XK_F3,     spawn,          { .v = (const char*[]){ "refresh_light_mode", NULL } } },
-	{ MODKEY,                       XK_F4,     spawn,          { .v = (const char*[]){ "refresh_wallpaper", NULL } } },
+	{ MODKEY,                       XK_F4,     spawn,          { .v = (const char*[]){ "refresh_wallpaper && picom ~/.config/picom.conf", NULL } } },
 	{ MODKEY,                       XK_F5,     xresources,     {.v = NULL}},
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
